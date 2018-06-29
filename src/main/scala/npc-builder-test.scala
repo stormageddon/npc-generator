@@ -3,18 +3,7 @@ package com.test.NpcBuilder
 import scala.util.{Random}
 
 class NPC(val npcName: String = "", val npcClass: String = "", val npcTitle: String = "", val npcRace: String = "") {
-  def nameChoices: Array[String] = Array("Mal", 
-    "Argyn",
-    "Ulrich",
-    "Viktor",
-    "Dendrath",
-    "Clarence",
-    "Molloc",
-    "Gunmaar",
-    "Reindrath",
-    "Ogden",
-    "Tess",
-    "Visca")
+  
   
   def titleChoices: Array[String] = Array("the Enormous", 
     "Bone-breaker", 
@@ -55,15 +44,8 @@ class NPC(val npcName: String = "", val npcClass: String = "", val npcTitle: Str
     "Half Dragon")
   def r = Random
 
-  //def name = nameChoices(r.nextInt(nameChoices.length : Int))
-  var name = ""
-  if (npcName != null && npcName != "") {
-    name = npcName
-  }
-  else {
-    name = nameChoices(r.nextInt(nameChoices.length : Int))
-  }
-  //def name = nameChoices(index)
+  var name = npcName
+  
 
   var title = ""
   if (npcTitle != null && npcTitle != "") {
@@ -92,16 +74,32 @@ class NPC(val npcName: String = "", val npcClass: String = "", val npcTitle: Str
   def level = r.nextInt(20) + 1
 }
 
-class NpcBuilder() {
-  var bName = ""
+case class NpcBuilder() {
+  def r = Random
+  val nameChoices: Array[String] = Array("Mal", 
+      "Argyn",
+      "Ulrich",
+      "Viktor",
+      "Dendrath",
+      "Clarence",
+      "Molloc",
+      "Gunmaar",
+      "Reindrath",
+      "Ogden",
+      "Tess",
+      "Visca")
 
-  def withName(newName: String) {
+  var bName: String = nameChoices(r.nextInt(nameChoices.length : Int))
+  println("bName " + bName)
+
+  def withName(newName: String) : NpcBuilder = {
     this.bName = newName
     return this
   }
 
-  def build() {
-    var newNpc : NPC = new NPC()
+  def build(): NPC = {
+    val newNpc : NPC = new NPC()
+    println("bName 2 " + this.bName)
     newNpc.name = this.bName
     return newNpc
   }
@@ -123,10 +121,21 @@ object NpcGenerator {
 
     println("Generating an npc on the fly!")
 
-    val npc = new NPC(npcName = npcName, npcRace = npcRace, npcClass = npcClass, npcTitle = npcTitle)
+    //val npc = new NPC(npcName = npcName, npcRace = npcRace, npcClass = npcClass, npcTitle = npcTitle)
     //var npc = new NpcBuilder().build()
-    println("npc: " + npc) 
-    println(npc.name + " " + npc.title + ", a level " + npc.level + " " + npc.characterRace + " " + npc.characterClass)
+    //println("npc: " + npc) 
+
+
+    //var npc = new NpcBuilder().withName(npcName).build()
+    var npc = new NpcBuilder()
+    
+    if (npcName != null && npcName != "") {
+      npc = npc.withName(npcName)
+    }
+
+    var npcMade = npc.build()
+    println(npcMade.name + " " + npcMade.title + ", a level " + npcMade.level + " " + npcMade.characterRace + " " + npcMade.characterClass)
+
   }
 }
 
