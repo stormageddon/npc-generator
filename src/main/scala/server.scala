@@ -4,6 +4,8 @@ import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
 import java.io.{InputStream, OutputStream}
 import java.net.InetSocketAddress
 import java.util.{Date}
+import java.nio.charset.StandardCharsets
+
 import scala.util.parsing.json._
 import com.test.NpcBuilder._
 
@@ -58,7 +60,10 @@ class NpcHandler extends HttpHandler {
     val npcMade = new NpcBuilder().withRace(npcRace).withName(npcName).withClass(npcClass).withTitle(npcTitle).build()
     val response = npcMade.printName()
 
-    t.sendResponseHeaders(200, response.length())
+    t.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
+
+    //t.sendResponseHeaders(200, response.length())
+    t.sendResponseHeaders(200, response.getBytes().length)
     val os = t.getResponseBody
     os.write(response.getBytes())
     os.close()
