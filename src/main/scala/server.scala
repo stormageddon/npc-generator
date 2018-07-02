@@ -57,12 +57,20 @@ class NpcHandler extends HttpHandler {
       case Some(s: String) => npcTitle = s
     }
 
-    val npcMade = new NpcBuilder().withRace(npcRace).withName(npcName).withClass(npcClass).withTitle(npcTitle).build()
-    val response = npcMade.printName()
+    var n: Int = 1
+    jsonResponse.get("n") match {
+      case None => n = 1
+      case Some(s: String) => n = s.toInt
+    }
+
+    var response = ""
+
+    for (i <- 1 to n) {
+      val npcMade = new NpcBuilder().withRace(npcRace).withName(npcName).withClass(npcClass).withTitle(npcTitle).build()
+      response = response + npcMade.printName() + "\n"
+    }
 
     t.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
-
-    //t.sendResponseHeaders(200, response.length())
     t.sendResponseHeaders(200, response.getBytes().length)
     val os = t.getResponseBody
     os.write(response.getBytes())

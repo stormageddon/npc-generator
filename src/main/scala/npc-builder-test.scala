@@ -19,7 +19,7 @@ class NPC(val npcName: String = "", val npcClass: String = "", val npcTitle: Str
   val level = r.nextInt(20) + 1
 
   def printName() : String = {
-    return name + " " + title + ", a level " + level + " " + characterRace + " " + characterClass
+    return name + ", " + title + ", a level " + level + " " + characterRace + " " + characterClass
   } 
 }
 
@@ -28,11 +28,12 @@ case class NpcBuilder() {
   
   val nameChoices: Array[String] = Source.fromFile("src/main/scala/resources/names.txt").getLines.toArray
   val titleChoices: Array[String] = Source.fromFile("src/main/scala/resources/titles.txt").getLines.toArray
+  val titleChoicesSuffix: Array[String] = Source.fromFile("src/main/scala/resources/titles2.txt").getLines.toArray
   val classChoices: Array[String] = Source.fromFile("src/main/scala/resources/classes.txt").getLines.toArray
   val raceChoices: Array[String] = Source.fromFile("src/main/scala/resources/races.txt").getLines.toArray
   
   var bName: String = nameChoices(r.nextInt(nameChoices.length))
-  var bTitle: String = titleChoices(r.nextInt(titleChoices.length))
+  var bTitle: String = titleChoices(r.nextInt(titleChoices.length)) + " of " + titleChoicesSuffix(r.nextInt(titleChoicesSuffix.length))
   var bClass: String = classChoices(r.nextInt(classChoices.length))
   var bRace: String = raceChoices(r.nextInt(raceChoices.length))
 
