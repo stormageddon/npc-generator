@@ -25,10 +25,11 @@ class NPC(val npcName: String = "", val npcClass: String = "", val npcTitle: Str
 
 case class NpcBuilder() {
   def r = Random
-  val nameChoices: Array[String] = Source.fromFile("/Users/mike/code/personal/scala/npc-builder/src/main/scala/names.txt").getLines.toArray
-  val titleChoices: Array[String] = Source.fromFile("/Users/mike/code/personal/scala/npc-builder/src/main/scala/titles.txt").getLines.toArray
-  val classChoices: Array[String] = Source.fromFile("/Users/mike/code/personal/scala/npc-builder/src/main/scala/classes.txt").getLines.toArray
-  val raceChoices: Array[String] = Source.fromFile("/Users/mike/code/personal/scala/npc-builder/src/main/scala/races.txt").getLines.toArray
+  
+  val nameChoices: Array[String] = Source.fromFile("src/main/scala/names.txt").getLines.toArray
+  val titleChoices: Array[String] = Source.fromFile("src/main/scala/titles.txt").getLines.toArray
+  val classChoices: Array[String] = Source.fromFile("src/main/scala/classes.txt").getLines.toArray
+  val raceChoices: Array[String] = Source.fromFile("src/main/scala/races.txt").getLines.toArray
   
   var bName: String = nameChoices(r.nextInt(nameChoices.length))
   var bTitle: String = titleChoices(r.nextInt(titleChoices.length))
