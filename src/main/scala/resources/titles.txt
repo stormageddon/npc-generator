@@ -106,14 +106,10 @@ Missionary
 Monk
 Mother
 Novice
-Nun
 Paladin
 Pastor
 Patriarch
-Preacher
 Priest
-Rabbi
-Reverend
 Sage
 Saint
 Seer
