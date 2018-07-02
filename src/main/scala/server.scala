@@ -24,7 +24,6 @@ object NpcServer {
 
 class NpcHandler extends HttpHandler {
   def handle(t: HttpExchange) {
-    //displayPayload(t.getRequestBody)
     sendResponse(t)
   }
 

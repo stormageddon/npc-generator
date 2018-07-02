@@ -5,6 +5,7 @@ import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
 import java.io.{InputStream, OutputStream}
 import java.net.InetSocketAddress
 import scala.util.parsing.json._
+import scala.io.Source
 
 class NPC(val npcName: String = "", val npcClass: String = "", val npcTitle: String = "", val npcRace: String = "") {
 
@@ -24,58 +25,12 @@ class NPC(val npcName: String = "", val npcClass: String = "", val npcTitle: Str
 
 case class NpcBuilder() {
   def r = Random
-  val nameChoices: Array[String] = Array("Mal", 
-      "Argyn",
-      "Ulrich",
-      "Viktor",
-      "Dendrath",
-      "Clarence",
-      "Molloc",
-      "Gunmaar",
-      "Reindrath",
-      "Ogden",
-      "Tess",
-      "Visca")
-
-  def titleChoices: Array[String] = Array("the Enormous", 
-    "Bone-breaker", 
-    "the Chivalrous", 
-    "the Destroyer", 
-    "the Defiler",
-    "the White Rose",
-    "the Silver Storm",
-    "Death's Shadow",
-    "Oathbreaker")
-
-  def classChoices: Array[String] = Array("Barbarian",
-    "Bard",
-    "Cleric",
-    "Druid",
-    "Fighter",
-    "Monk",
-    "Paladin",
-    "Ranger",
-    "Rogue",
-    "Sorcerer",
-    "Warlock",
-    "Wizard")
-
-  def raceChoices: Array[String] = Array("Wood Elf", 
-    "Dusk Elf",
-    "Rock Gnome",
-    "Forest Gnome",
-    "Human",
-    "Goliath",
-    "Tiefling",
-    "Halfling",
-    "Aarakocra",
-    "Aasamir",
-    "Deep Gnome",
-    "Dragonborn",
-    "Drow",
-    "Half Dragon")
+  val nameChoices: Array[String] = Source.fromFile("/Users/mike/code/personal/scala/npc-builder/src/main/scala/names.txt").getLines.toArray
+  val titleChoices: Array[String] = Source.fromFile("/Users/mike/code/personal/scala/npc-builder/src/main/scala/titles.txt").getLines.toArray
+  val classChoices: Array[String] = Source.fromFile("/Users/mike/code/personal/scala/npc-builder/src/main/scala/classes.txt").getLines.toArray
+  val raceChoices: Array[String] = Source.fromFile("/Users/mike/code/personal/scala/npc-builder/src/main/scala/races.txt").getLines.toArray
   
-  var bName: String = nameChoices(r.nextInt(nameChoices.length : Int))
+  var bName: String = nameChoices(r.nextInt(nameChoices.length))
   var bTitle: String = titleChoices(r.nextInt(titleChoices.length))
   var bClass: String = classChoices(r.nextInt(classChoices.length))
   var bRace: String = raceChoices(r.nextInt(raceChoices.length))
