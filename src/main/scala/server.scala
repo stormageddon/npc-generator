@@ -3,6 +3,7 @@ package com.test.NpcServer
 import com.sun.net.httpserver.{HttpExchange, HttpHandler, HttpServer}
 import java.io.{InputStream, OutputStream}
 import java.net.InetSocketAddress
+import java.util.{Date}
 import scala.util.parsing.json._
 import com.test.NpcBuilder._
 
@@ -24,12 +25,12 @@ object NpcServer {
 
 class NpcHandler extends HttpHandler {
   def handle(t: HttpExchange) {
+    //displayPayload(t.getRequestBody)
     sendResponse(t)
   }
 
   private def sendResponse(t: HttpExchange) {
     val jsonResponse = copyStream(t.getRequestBody, System.out)
-    
     var npcRace: String = ""
     jsonResponse.get("race") match {
       case None => npcRace = ""
@@ -63,18 +64,13 @@ class NpcHandler extends HttpHandler {
     os.close()
   }
 
-  private def displayPayload(body: InputStream): Unit ={
-    println()
-    println("******************** REQUEST START ********************")
-    println()
-    copyStream(body, System.out)
-    println()
-    println("********************* REQUEST END *********************")
-    println()
+  private def displayPayload(body: String): Unit ={
+    println(new Date() + " : " + body)
   }
 
   private def copyStream(in: InputStream, out: OutputStream) : Map[String,String] = {
     var test = scala.io.Source.fromInputStream(in).mkString
+    displayPayload(test)
     val parsed = JSON.parseFull(test)
     val jsonMap : Map[String, String] = parsed match {
       case None => Map[String, String]()
